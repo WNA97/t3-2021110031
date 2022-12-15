@@ -39,7 +39,7 @@ class AuthorController extends Controller
     {
         $validateData = $request->validate([
             'nama' => 'required|max:255',
-            'kota' => 'required|integer|min:0|max:999',
+            'kota' => 'required|max:255',
             'negara' => 'required|max:255',
         ]);
         Author::create($validateData);
@@ -61,7 +61,6 @@ class AuthorController extends Controller
         $authorById = $author->books()->where('author_id', '=', $id)->get();
         $authorCount = $author->books()->where('author_id', '=', $id)->count();
         return view('authors.show', compact('author', 'allBooks', 'authorById', 'authorCount', 'id'));
-        // return view('authors.show', compact('author'));
     }
 
     /**
@@ -72,7 +71,7 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        return view('auhtors.edit', compact('author'));
+        return view('authors.edit', compact('author'));
     }
 
     /**
@@ -84,16 +83,14 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        $rules = [
-            'id' => 'required|max:13',
+        $validateData = $request->validate([
             'nama' => 'required|max:255',
             'kota' => 'required|max:255',
             'negara' => 'required|max:255',
-        ];
-        $validated = $request->validate($rules);
-        $author::where('id', [$author->id])->update($validated);
-
-        $request->session()->flash('success', "Berhasil meremajakan data penulis - {$validated['nama']}!");
+        ]);
+        $author->update($validateData);
+        $request->session()
+            ->flash('success', "Successfully updating {$validateData['nama']}!");
         return redirect()->route('authors.index');
     }
 
@@ -120,5 +117,15 @@ class AuthorController extends Controller
         $book->save();
         return redirect(route('authors.show', [$request->id]));
         // return view('dashboard', compact('jumlahBuku','jumlahPenulis'));
+    }
+
+    public function setAuthorId(Request $request, Author $author)
+    {
+        //
+        $book = Book::findOrFail($request->bookId);
+        $book->author_id = $request->id;
+        $book->save();
+        $request->session()->flash('success', "Berhasil menambahkan buku!");
+        return redirect(route('authors.show', [$request->id]));
     }
 }

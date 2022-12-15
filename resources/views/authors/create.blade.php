@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="negara">negara</label>
-            <input type="number" class="form-control @error('negara') is-invalid @enderror" name="negara" id="negara" min="0" max="999" value="{{ old('negara') }}">
+            <input type="text" class="form-control @error('negara') is-invalid @enderror" name="negara" id="negara" value="{{ old('negara') }}">
             @error('negara')
             <div class="text-danger">{{ $message }}</div>
             @enderror

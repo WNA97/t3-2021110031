@@ -12,9 +12,9 @@
     <div class="col-md-4">
         <div class="float-right">
             <div class="btn-group" role="group">
-                <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary ml-3">Edit</a>
+                <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary ml-3">Ubah</a>
                 <form action="{{ route('books.destroy', $book->id) }}" method="POST">
-                    <button type="submit" class="btn btn-danger ml-3">Delete</button>
+                    <button type="submit" class="btn btn-danger ml-3">Hapus</button>
                     @method('DELETE')
                     @csrf
                 </form>

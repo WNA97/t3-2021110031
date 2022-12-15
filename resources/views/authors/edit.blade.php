@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Edit Authors')
 @section('content')
-<h2>Update Data Buku</h2>
+<h2>Update Data Penulis</h2>
 <form action=" {{ route('authors.update', ['author' => $author->id]) }}" method="POST">
     @method('PATCH')
     @csrf
@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="kota">Kota</label>
-            <input type="number" class="form-control @error('kota') is-invalid @enderror" name="kota" id="kota" min="0" max="999" value="{{ old('kota')  ?? $author->kota }}">
+            <input type="text" class="form-control @error('kota') is-invalid @enderror" name="kota" id="kota" value="{{ old('kota')  ?? $author->kota }}">
             @error('kota')
             <div class="text-danger">{{ $message }}</div>
             @enderror

@@ -42,9 +42,10 @@
                         <h2>Daftar Buku</h2>
                     </div>
                     <div class="col-sm-6">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
-                            Tambah Data Buku
-                        </button>
+                        <a href="{{ route('books.create')}}" class="btn btn-success">
+                            <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                            <span>Tambah Buku</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -57,7 +58,6 @@
                         <th>Halaman</th>
                         <th>Kategori</th>
                         <th>Penerbit</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,21 +69,6 @@
                         <td>{{ $author->halaman }}</td>
                         <td>{{ $author->kategori }}</td>
                         <td>{{ $author->penerbit }}</td>
-                        <td>
-                            <form action="{{ route('setNull', ['author'=>$id]) }}" method="POST">
-                                @method('GET')
-                                @csrf
-                                <input type="text" name="id" id="id" value="{{ $id }}" hidden>
-                                <input type="text" name="bookId" id="bookId" value="{{ $author->id }}" hidden>
-                                <button class="btn btn-sm btn-danger btn-lg btn-block" type="submit">Hapus</button>
-                            </form>
-                            {{-- <a href="{{ route('authors.show', $author->id) }}">
-                            Lihat
-                            </a>
-                            <a href="{{ route('authors.edit', $author->id) }}">
-                                edit
-                            </a> --}}
-                        </td>
                     </tr>
                     @empty
                     <tr>
@@ -103,10 +88,6 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah data buku</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 {{-- <div class="table-responsive"> --}}
