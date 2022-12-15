@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -14,7 +15,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::all();
+        return view('books.index', compact('books'));
     }
 
     /**
@@ -24,7 +26,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $author_id = Author::all();
+        return view('books.create', ['id' => $author_id]);
     }
 
     /**
@@ -35,7 +38,17 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'id' => 'required|max:13',
+            'judul' => 'required|max:255',
+            'halaman' => 'required|integer|min:0|max:999',
+            'kategori' => 'required|max:255',
+            'penerbit' => 'required|max:255',
+            'author_id' => 'required|max:20',
+        ]);
+        Book::create($validateData);
+        $request->session()->flash('success', "Successfully adding {$validateData['judul']}!");
+        return redirect()->route('books.index');
     }
 
     /**
@@ -46,7 +59,8 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+
+        return view('books.show', compact('book'));
     }
 
     /**
@@ -57,7 +71,7 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        return view('books.edit', compact('book'));
     }
 
     /**
@@ -69,7 +83,17 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $validateData = $request->validate([
+            'judul' => 'required|max:255',
+            'halaman' => 'required|integer|min:0|max:999',
+            'kategori' => 'required|max:255',
+            'penerbit' => 'required|max:255',
+            'author_id' => 'required|max:20',
+        ]);
+        $book->update($validateData);
+        $request->session()
+            ->flash('success', "Successfully updating {$validateData['judul']}!");
+        return redirect()->route('books.index');
     }
 
     /**
@@ -80,6 +104,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return redirect()->route('books.index')->with(
+            'success',
+            "Successfully deleting {$book['title']}!"
+        );
     }
 }

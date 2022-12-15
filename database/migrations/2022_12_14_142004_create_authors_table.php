@@ -19,6 +19,7 @@ class CreateAuthorsTable extends Migration
             $table->string('kota');
             $table->string('negara');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

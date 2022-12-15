@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('getAuthor/{id}', function ($id) {
+    $course = App\Models\Author::where('id', $id)->get();
+    return response()->json($course);
 });
+Route::get('/setNull', [Author::class, 'setNull'])->name('setNull');
+
+Route::resource('books', BookController::class);
+Route::resource('authors', AuthorController::class);
